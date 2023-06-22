@@ -1,74 +1,71 @@
 from textblob import TextBlob
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import nltk
-import random
+from translate import Translator
 import speech_recognition as sr
 
+# Download AI model to recognize special lexicon
 nltk.download('vader_lexicon')
 
 
-# Инициализация объекта распознавания речи
+# Initialization object speech recognition
 recognizer = sr.Recognizer()
-# Инициализация анализатора тональности
+# Initialization analyser key
 sia = SentimentIntensityAnalyzer()
 
+# Function to recognize speech
 
-def recognize_words():
-    all_words = []
+
+def recognizeSpeech():
 
     with sr.Microphone() as source:
-        print("Говорите...")
-        audio = recognizer.listen(source, timeout=3.0, phrase_time_limit=3.0)
+        print("Speak...")
+        audio = recognizer.listen(source, timeout=5.0, phrase_time_limit=5.0)
 
     try:
         text = recognizer.recognize_google(
-            audio, language="ru-RU", show_all=True)
-        print("Распознанные слова:")
-        word = random.choice(text["transcript"])
-        print("- ", word)
-        if "стоп" in word.lower():
-            return  # Остановить запись
+            audio, language="ru-RU")
+        print("Recognized words:")
+        print(text)
+
     except sr.UnknownValueError:
-        print("Не удалось распознать речь")
+        print("Can't recognize speech")
     except sr.RequestError as e:
-        print("Ошибка сервиса распознавания речи: {0}".format(e))
-
-    # Продолжить запись
-    recognize_words()
+        print("Error while trying to recognize words: {0}".format(e))
 
 
-def recognize_emotions():
+def recognizeEmotions():
     with sr.Microphone() as source:
-        print("Говорите...")
-        audio = recognizer.listen(source, timeout=10.0, phrase_time_limit=10.0)
+        print("Speak...")
+        audio = recognizer.listen(source, timeout=3.0, phrase_time_limit=3.0)
 
     text = recognizer.recognize_google(audio, language="ru-RU")
     analyzer = SentimentIntensityAnalyzer()
 
-    # Анализ эмоциональной окраски текста
+    # Analyze of emotional keys
     sentiment_scores = analyzer.polarity_scores(text)
 
-    # Вывод результатов
-    print("Анализ эмоциональной окраски для текста:", text)
-    print("Позитивность:", sentiment_scores['pos'])
-    print("Негативность:", sentiment_scores['neg'])
-    print("Нейтральность:", sentiment_scores['neu'])
-    print("Общая эмоциональная окраска:", sentiment_scores['compound'])
+    # Output results
+    print("Analys emotional coloring for text:", sentiment_scores)
+    print("Positive:", sentiment_scores['pos'])
+    print("Negative:", sentiment_scores['neg'])
+    print("Neutral:", sentiment_scores['neu'])
+    print("General emotional:", sentiment_scores['compound'])
 
 
 # Основной цикл программы
 while True:
-    print("Выберите режим:")
-    print("1. Распознавание слов")
-    print("2. Распознавание эмоций")
-    print("0. Выход")
-    choice = input("Введите номер режима: ")
+    print("Mode:")
+    print("1. Words recognition")
+    print("2. Santiments recognition")
+    print("0. Exit")
+    choice = input("Input number of mode: ")
 
     if choice == "1":
-        recognize_words()
+        recognizeSpeech()
     elif choice == "2":
-        recognize_emotions()
+        recognizeEmotions()
     elif choice == "0":
         break
     else:
-        print("Некорректный выбор. Пожалуйста, выберите снова.")
+        print("Incorrect choice. Please, make the choice again.")
