@@ -1,6 +1,13 @@
 from googletrans import Translator
 
-translator = Translator()
-result = translator.translate('Mitä sinä teet')
 
-print(result)
+def translate_russian_to_english(sentence):
+    translator = Translator(service_urls=['translate.google.com'])
+    translation = translator.translate(sentence, src='ru', dest='en')
+    return translation.text
+
+
+# Example usage
+russian_sentence = "Привет, как дела?"
+english_translation = translate_russian_to_english(russian_sentence)
+print(english_translation)
