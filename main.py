@@ -1,11 +1,11 @@
 from textblob import TextBlob
 from googletrans import Translator
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-import nltk
+# import nltk
 import speech_recognition as sr
 
 # Download AI model to recognize special lexicon
-nltk.download('vader_lexicon')
+# nltk.download('vader_lexicon')
 
 
 # Initialization object speech recognition
