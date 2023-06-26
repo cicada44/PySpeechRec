@@ -9,7 +9,7 @@ To run this project, you need to have Python 3.x installed on your system. Follo
 
 1. Install the required Python libraries:
    ```bash
-   pip install textblob googletrans nltk SpeechRecognition
+   pip install textblob googletrans==4.0.0-rc1 nltk SpeechRecognition winspeech
    ```
 2. Install the AI model:
    ```bash
